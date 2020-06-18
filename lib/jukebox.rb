@@ -1,10 +1,21 @@
-# Add your code here
+songs = [
+  "Phoenix - 1901",
+  "Tokyo Police Club - Wait Up",
+  "Sufjan Stevens - Too Much",
+  "The Naked and the Famous - Young Blood",
+  "(Far From) Home - Tiga",
+  "The Cults - Abducted",
+  "Phoenix - Consolation Prizes",
+  "Harry Chapin - Cats in the Cradle",
+  "Amos Lee - Keep It Loose, Keep It Tight"
+]
+
 def help
-  puts "I accept the following commands:"
-  puts "- help : displays this help message"
-  puts "- list : lets you choose a song to play"
-  puts "- play : lets you choose a song to play"
-  puts "- exit : exits this program"
+  puts  "I accept the following commands:"
+  puts  "- help : displays this help message"
+  puts  "- list : displays a list of songs you can play"
+  puts  "- play : lets you choose a song to play"
+  puts  "- exit : exits this program"
 end
 
 def list(songs)
@@ -14,17 +25,14 @@ def list(songs)
 end
 
 def play(songs)
-  puts "Please enter a song name or number"
-  input = gets.chomp
-  songs.each_with_index do |song, idx|
-    if input.to_i == (idx+1) || input == song
-      puts "Playing #{song}"
-      break
-    else
-      puts "Invalid input, please try again"
-      break
-    end
-
+  puts "Please enter a song name or number:"
+  song_to_play = gets.chomp
+  if (1..9).to_a.include?(song_to_play.to_i)
+    puts "Playing #{songs[song_to_play.to_i - 1]}"
+  elsif songs.include?(song_to_play)
+    puts "Playing #{song_to_play}"
+  else
+    puts "Invalid input, please try again"
   end
 end
 
@@ -33,22 +41,25 @@ def exit_jukebox
 end
 
 def run(songs)
-  help
+  # help
+
   input = ""
-  while input != "exit"
+  while input
     puts "Please enter a command:"
-    input = gets.chomp
+    input = gets.downcase.strip
     case input
-    when "play"
-      play(song)
-    when "list"
+    when 'list'
       list(songs)
-    when "help"
+    when 'play'
+      list(songs)
+      play(songs)
+    when 'help'
       help
-    when "exit"
+    when 'exit'
       exit_jukebox
+      break
     else
-      puts "Invalid input, please try again"
+      help
     end
   end
 end
