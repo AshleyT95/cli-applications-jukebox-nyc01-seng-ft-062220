@@ -1,61 +1,54 @@
 # Add your code here
 def help
-  puts "I accept the following commands:
-- help : displays this help message
-- list : displays a list of songs you can play
-- play : lets you choose a song to play
-- exit : exits this program"
+  puts "I accept the following commands:"
+  puts "- help : displays this help message"
+  puts "- list : lets you choose a song to play"
+  puts "- play : lets you choose a song to play"
+  puts "- exit : exits this program"
 end
 
 def list(songs)
-  songs.each_with_index do |song, track|
-    puts "#{track + 1}. #{song}"
+  songs.each_with_index do |song, i|
+    puts "#{i+1}. #{song}"
   end
 end
 
 def play(songs)
-  puts "Please enter a song name or number:"
-  input = gets.strip
-  number = input.to_i - 1
+  puts "Please enter a song name or number"
+  input = gets.chomp
+  songs.each_with_index do |song, idx|
+    if input.to_i == (idx+1) || input == song
+      puts "Playing #{song}"
+      break
+    else
+      puts "Invalid input, please try again"
+      break
+    end 
 
-  if input == "exit"
-    exit_jukebox
-  elsif number < 0 && songs.include?(input)
-    index = songs.index(input)
-    puts "Playing #{songs[index]}"
-  elsif number >= 0 && songs[number] != nil
-    puts "Playing #{songs[number]}"
-  else
-    puts "Invalid input, please try again"
   end
 end
 
 def exit_jukebox
-  puts "Goodbye!"
+  puts "Goodbye"
 end
 
 def run(songs)
-  methods = ["help", "list", "play", "exit"]
   help
-  puts "Please enter a command:"
-  input = gets.strip
-
-  while !methods.include?(input)
+  input = ""
+  while input != "exit"
     puts "Please enter a command:"
-    input = gets.strip
+    input = gets.chomp
+    case input
+    when "play"
+      play(song)
+    when "list"
+      list(songs)
+    when "help"
+      help
+    when "exit"
+      exit_jukebox    
+    else
+      puts "Invalid input, please try again"
+    end
   end
-
-  case input
-  when "help"
-    help
-  when "play"
-    play(songs)
-  when "list"
-    list(songs)
-  when "exit"
-    exit_jukebox
-    exit
-  end
-
-  run(songs)
 end
